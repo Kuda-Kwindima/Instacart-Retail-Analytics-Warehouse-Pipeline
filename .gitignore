@@ -10,7 +10,7 @@ __pycache__/
 venv/
 env/
 
-# Environment variables (database passwords)
+# Environment variables
 .env
 
 # Jupyter
@@ -26,8 +26,12 @@ Thumbs.db
 # VS Code
 .vscode/
 
-# Data files (optional depending on project)
-data/raw/*.csv
+# Data
+data/
+!data/README.md
+
+# Databases
+*.sqlite
 
 # Prefect
 .prefect/
