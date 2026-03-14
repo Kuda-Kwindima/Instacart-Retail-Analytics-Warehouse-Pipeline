@@ -7,7 +7,7 @@ The pipeline loads raw CSV data, cleans and models it, and produces analytics-re
 
 ## Pipeline Architecture
 
-The warehouse follows a layered architecture:
+The pipeline ingests raw Instacart CSV files, loads them into a PostgreSQL warehouse, and transforms them through layered schemas (raw → staging → warehouse → marts) orchestrated with Prefect.
 
 ```mermaid
 flowchart TD
@@ -33,12 +33,12 @@ H --> B
 
 ## Technologies
 
-Python
-PostgreSQL
-SQLAlchemy
-Prefect
-Pandas
-Dimensional Data Modeling
+- Python
+- PostgreSQL
+- SQLAlchemy
+- Prefect
+- Pandas
+- Dimensional Data Modeling
 
 ## Project Structure
 
@@ -60,31 +60,48 @@ requirements.txt
 
 ## Data Model
 
-### RAW
-- raw_orders
-- raw_products
-- raw_aisles
-- raw_departments
-- raw_order_products_prior
-- raw_order_products_train
+The warehouse follows a dimensional model with a central fact table for order items and supporting dimension tables.
 
-### STAGING
-- stg_orders
-- stg_products
-- stg_order_items
+```mermaid
+erDiagram
 
-### WAREHOUSE
-- dim_orders
-- dim_products
-- dim_aisles
-- dim_departments
-- fact_order_items
+fact_order_items {
+    int order_id
+    int product_id
+    int add_to_cart_order
+    int reordered
+}
 
-### MARTS
-- mart_product_reorders
-- mart_customer_orders
-- mart_department_trends
+dim_orders {
+    int order_id
+    int user_id
+    int order_number
+    int order_dow
+    int order_hour_of_day
+}
 
+dim_products {
+    int product_id
+    string product_name
+    int aisle_id
+    int department_id
+}
+
+dim_aisles {
+    int aisle_id
+    string aisle
+}
+
+dim_departments {
+    int department_id
+    string department
+}
+
+fact_order_items }o--|| dim_orders : order_id
+fact_order_items }o--|| dim_products : product_id
+dim_products }o--|| dim_aisles : aisle_id
+dim_products }o--|| dim_departments : department_id
+```
 ---
 
 ## Pipeline Steps
