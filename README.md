@@ -4,6 +4,14 @@ This project builds an end-to-end data engineering pipeline that transforms the 
 
 The pipeline loads raw CSV data, cleans and models it, and produces analytics-ready data marts for business insights.
 
+## Key Features
+
+- End-to-end data engineering pipeline for the Instacart Online Grocery Shopping dataset
+- Processes **33M+ order item records** into a structured analytics warehouse
+- Layered data architecture: **raw → staging → warehouse → marts**
+- **Dimensional star schema** optimized for analytics queries
+- Pipeline orchestration using **Prefect**
+- Fully **containerized with Docker** for reproducible execution
 
 ## Pipeline Architecture
 
@@ -46,8 +54,6 @@ H --> B
 - Which products have the highest reorder probability?
 - What time of day do customers shop most?
 - Which departments drive the most repeat purchases?
-
-
 
 
 ## Project Structure
@@ -122,11 +128,6 @@ dim_products }o--|| dim_departments : department_id
 4. Build dimensional warehouse tables
 5. Generate analytics marts
 
-## Pipeline scale
-
-```
-Processes 30M+ order-item records into a dimensional warehouse.
-```
 
 ---
 
@@ -192,6 +193,7 @@ The pipeline runs in Docker containers for reproducible local execution.
 
 ## Future Improvements
 
-- Airflow orchestration
+- Apache Airflow orchestration
 - Cloud deployment (Azure)
+- Data lake integration
 - Dashboard layer (Power BI / Metabase)
