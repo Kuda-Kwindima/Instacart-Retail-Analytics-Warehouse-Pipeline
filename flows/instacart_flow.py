@@ -2,13 +2,19 @@ import os
 from pathlib import Path
 import subprocess
 
+from dotenv import load_dotenv
 from prefect import flow, task
 
-PSQL_EXE = r"C:\Program Files\PostgreSQL\18\bin\psql.exe"
-PYTHON_EXE = r"C:\Users\akwin\anaconda3\envs\Ds_explore\python.exe"
-DB_NAME = "instacart_dw"
-DB_USER = "postgres"
-DB_PASSWORD = "pinewoodK200"
+load_dotenv()
+
+PSQL_EXE = os.getenv("PSQL_EXE", "psql")
+PYTHON_EXE = os.getenv("PYTHON_EXE", "python")
+
+DB_HOST = os.getenv("DB_HOST", "localhost")
+DB_PORT = os.getenv("DB_PORT", "5432")
+DB_NAME = os.getenv("DB_NAME", "instacart_dw")
+DB_USER = os.getenv("DB_USER", "postgres")
+DB_PASSWORD = os.getenv("DB_PASSWORD")
 
 
 @task(name="run_python_script")
@@ -19,28 +25,34 @@ def run_python_script(script_path: str):
         check=True
     )
 
+
 @task(name="run_sql_file")
 def run_sql_file(sql_file_path: str):
     print(f"Running SQL file: {sql_file_path}")
 
     env = os.environ.copy()
-    env["PGPASSWORD"] = DB_PASSWORD
+    env["PGPASSWORD"] = DB_PASSWORD if DB_PASSWORD else ""
 
     subprocess.run(
         [
             PSQL_EXE,
             "-h",
-            "localhost",
+            DB_HOST,
+            "-p",
+            DB_PORT,
             "-U",
             DB_USER,
             "-d",
             DB_NAME,
+            "-P",
+            "pager=off",
             "-f",
             sql_file_path
         ],
         check=True,
         env=env
     )
+
 
 @flow(name="instacart-analytics-warehouse-pipeline")
 def instacart_etl_flow():
