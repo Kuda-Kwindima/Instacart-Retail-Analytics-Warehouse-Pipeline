@@ -38,6 +38,21 @@ end
 
 H --> B
 ```
+## ⚡ New: Azure Data Lake Pipeline
+
+In addition to the PostgreSQL warehouse pipeline, this project now includes a cloud-based data lake pipeline built on Azure Blob Storage.
+
+This pipeline:
+
+- Stores raw data in Azure (data lake)
+- Processes and cleans data using Python (Pandas)
+- Builds warehouse tables (dimensions + facts)
+- Generates analytics-ready marts
+- Is orchestrated using Prefect with retry logic
+
+Architecture:
+
+Raw (Azure) → Processed → Warehouse → Marts
 
 ## Technologies
 
@@ -48,6 +63,8 @@ H --> B
 - Docker
 - Pandas
 - Dimensional Modeling
+- Azure Blob Storage (Data Lake)
+- Pandas-based transformations (warehouse layer)
 
 ### Examples of business questions answered:
 
@@ -194,6 +211,7 @@ The pipeline runs in Docker containers for reproducible local execution.
 ## Future Improvements
 
 - Apache Airflow orchestration
-- Cloud deployment (Azure)
 - Data lake integration
 - Dashboard layer (Power BI / Metabase)
+- Load Azure warehouse into PostgreSQL / Azure SQL
+- Improve monitoring and logging
