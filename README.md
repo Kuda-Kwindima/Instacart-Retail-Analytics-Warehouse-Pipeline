@@ -1,8 +1,13 @@
 # Instacart Retail Analytics Warehouse Pipeline
 
-This project builds an end-to-end data engineering pipeline that transforms the Instacart Online Grocery Shopping dataset into a structured PostgreSQL analytics warehouse.
+This project builds an end-to-end data engineering pipeline that transforms the Instacart dataset into an analytics-ready data platform.
 
-The pipeline loads raw CSV data, cleans and models it, and produces analytics-ready data marts for business insights.
+It includes two implementations:
+
+- A PostgreSQL-based analytics warehouse (SQL-driven pipeline)
+- A cloud-based Azure Data Lake pipeline (Python + storage-driven)
+
+Both pipelines follow a layered architecture and produce structured data models and analytics-ready marts for business insights.
 
 ## Key Features
 
@@ -38,21 +43,25 @@ end
 
 H --> B
 ```
-## ⚡ New: Azure Data Lake Pipeline
+## ⚡ Azure Data Lake Pipeline
 
-In addition to the PostgreSQL warehouse pipeline, this project now includes a cloud-based data lake pipeline built on Azure Blob Storage.
+This project also includes a cloud-native data pipeline built on Azure Blob Storage.
 
-This pipeline:
+This implementation demonstrates a modern data engineering approach using a data lake instead of a traditional database warehouse.
 
-- Stores raw data in Azure (data lake)
-- Processes and cleans data using Python (Pandas)
-- Builds warehouse tables (dimensions + facts)
-- Generates analytics-ready marts
-- Is orchestrated using Prefect with retry logic
+Key capabilities:
+
+- Raw data stored in Azure (data lake)
+- Data processing using Python (Pandas)
+- Warehouse modeling (dimensions + fact tables)
+- Analytics marts generation
+- Orchestration using Prefect with retry logic
 
 Architecture:
 
 Raw (Azure) → Processed → Warehouse → Marts
+
+This complements the PostgreSQL pipeline by showing both database-driven and data lake-based architectures.
 
 ## Technologies
 
@@ -210,8 +219,8 @@ The pipeline runs in Docker containers for reproducible local execution.
 
 ## Future Improvements
 
-- Apache Airflow orchestration
-- Data lake integration
-- Dashboard layer (Power BI / Metabase)
+- Power BI dashboards for business visualization
 - Load Azure warehouse into PostgreSQL / Azure SQL
-- Improve monitoring and logging
+- Implement data quality checks
+- Add monitoring and alerting
+- Introduce scheduling for automated runs
